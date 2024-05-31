@@ -1,0 +1,43 @@
+{
+  "name": "fetch-in-chunks",
+  "version": "1.0.0",
+  "description": "A utility for fetching large files in chunks with support for parallel downloads and progress tracking.",
+  "main": "index.js",
+  "type": "module",
+  "files": [
+    "index.js"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.js",
+      "main": "./index.js",
+      "browser": "./index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "fix": "npx prettier . --write"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomayac/fetch-in-chunks.git"
+  },
+  "keywords": [
+    "fetch",
+    "chunks",
+    "download",
+    "parallel",
+    "progress",
+    "abort"
+  ],
+  "author": "Thomas Steiner (tomac@google.com)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/tomayac/fetch-in-chunks/issues"
+  },
+  "homepage": "https://github.com/tomayac/fetch-in-chunks#readme",
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "prettier-plugin-jsdoc": "^1.3.0"
+  }
+}
