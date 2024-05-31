@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fetch in chunks</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <style>
+      :root {
+        color-scheme: dark light;
+        font-family: system-ui, sans-serif;
+      }
+
+      video {
+        max-width: 100%;
+        height: auto;
+        aspect-ratio: 1280/720;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Fetch in chunks</h1>
+    <label>Download progress: <progress value="0"></progress></label>
+    <video playsinline muted width="1280" height="720"></video>
+    <script type="module">
+      import fetchInChunks from '../index.js';
+
+      const VIDEO_URL = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+
+      const video = document.querySelector('video');
+      const progress = document.querySelector('progress');
+
+      const blob = await fetchInChunks(VIDEO_URL, {
+        progressCallback: (done, total) => {
+          progress.value = done / total;
+        }
+      });
+
+      video.src = URL.createObjectURL(blob);
+      video.controls = true;
+      video.play();
+    </script>
+  </body>
+</html>
