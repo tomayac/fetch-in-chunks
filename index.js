@@ -1,3 +1,25 @@
+/**
+ * @typedef {Object} FetchInChunksOptions
+ * @property {number} [chunkSize=5 * 1024 * 1024] - The size of each chunk in
+ *   bytes. Default is `5 * 1024 * 1024`
+ * @property {number} [maxParallelRequests=6] - The maximum number of parallel
+ *   chunk requests. Default is `6`
+ * @property {function(number, number): void} [progressCallback=null] - A
+ *   callback function that is called with the downloaded bytes and total file
+ *   size. Default is `null`
+ * @property {AbortSignal} [signal=null] - An AbortSignal to allow aborting the
+ *   request. Default is `null`
+ */
+
+/**
+ * Fetch a file in chunks with parallel requests and optional progress tracking.
+ *
+ * @param {string} url - The URL of the file to download.
+ * @param {FetchInChunksOptions} [options={}] - The options for the download.
+ *   Default is `{}`
+ * @returns {Promise<Blob>} A promise that resolves to a Blob containing the
+ *   downloaded file.
+ */
 async function fetchInChunks(url, options = {}) {
   const {
     chunkSize = 5 * 1024 * 1024,
@@ -6,6 +28,13 @@ async function fetchInChunks(url, options = {}) {
     signal = null,
   } = options;
 
+  /**
+   * Get the size of the remote file using a HEAD request.
+   *
+   * @param {string} url - The URL of the file.
+   * @param {AbortSignal} signal - The abort signal.
+   * @returns {Promise<number>} The size of the file in bytes.
+   */
   async function getFileSize(url, signal) {
     const response = await fetch(url, { method: 'HEAD', signal });
     if (!response.ok) {
@@ -18,6 +47,15 @@ async function fetchInChunks(url, options = {}) {
     return parseInt(contentLength, 10);
   }
 
+  /**
+   * Fetch a chunk of the file.
+   *
+   * @param {string} url - The URL of the file.
+   * @param {number} start - The start byte of the chunk.
+   * @param {number} end - The end byte of the chunk.
+   * @param {AbortSignal} signal - The abort signal.
+   * @returns {Promise<ArrayBuffer>} The chunk data.
+   */
   async function fetchChunk(url, start, end, signal) {
     const response = await fetch(url, {
       headers: { Range: `bytes=${start}-${end}` },
@@ -29,6 +67,19 @@ async function fetchInChunks(url, options = {}) {
     return await response.arrayBuffer();
   }
 
+  /**
+   * Download the file in chunks with parallelism.
+   *
+   * @param {string} url - The URL of the file.
+   * @param {number} fileSize - The size of the file in bytes.
+   * @param {number} chunkSize - The size of each chunk in bytes.
+   * @param {number} maxParallelRequests - The maximum number of parallel chunk
+   *   requests.
+   * @param {function(number, number): void} progressCallback - The progress
+   *   callback function.
+   * @param {AbortSignal} signal - The abort signal.
+   * @returns {Promise<ArrayBuffer[]>} The downloaded chunks.
+   */
   async function downloadChunks(
     url,
     fileSize,
@@ -42,6 +93,7 @@ async function fetchInChunks(url, options = {}) {
     let start = 0;
     let downloadedBytes = 0;
 
+    // Function to process the queue
     async function processQueue() {
       while (start < fileSize) {
         if (queue.length < maxParallelRequests) {

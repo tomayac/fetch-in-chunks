@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
     <title>Fetch in chunks</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="dark light">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark light" />
     <style>
       :root {
         color-scheme: dark light;
@@ -25,7 +25,8 @@
     <script type="module">
       import fetchInChunks from '../index.js';
 
-      const VIDEO_URL = 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
+      const VIDEO_URL =
+        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4';
 
       const video = document.querySelector('video');
       const progress = document.querySelector('progress');
@@ -33,7 +34,7 @@
       const blob = await fetchInChunks(VIDEO_URL, {
         progressCallback: (done, total) => {
           progress.value = done / total;
-        }
+        },
       });
 
       video.src = URL.createObjectURL(blob);
