@@ -1,10 +1,11 @@
-async function fetchInChunks(
-  url,
-  chunkSize = 5 * 1024 * 1024,
-  maxParallelRequests = 6,
-  progressCallback = null,
-  signal = null,
-) {
+async function fetchInChunks(url, options = {}) {
+  const {
+    chunkSize = 5 * 1024 * 1024,
+    maxParallelRequests = 6,
+    progressCallback = null,
+    signal = null,
+  } = options;
+
   async function getFileSize(url, signal) {
     const response = await fetch(url, { method: 'HEAD', signal });
     if (!response.ok) {

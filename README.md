@@ -22,14 +22,18 @@ import fetchInChunks from 'fetch-in-chunks';
 ### Function Signature
 
 ```js
-async function fetchInChunks(
-  url,
-  chunkSize = 5 * 1024 * 1024,
-  maxParallelRequests = 6,
-  progressCallback = null,
-  signal = null
-)
+async function fetchInChunks(url, options = {})
 ```
+
+### Options Object
+
+- `chunkSize` (`number`, optional): The size of each chunk in bytes. Defaults to
+  5 MB (5 _ 1024 _ 1024).
+- `maxParallelRequests` (`number`, optional): The maximum number of parallel
+  chunk requests. Defaults to 6. `progressCallback` (`function`, optional): A
+  callback function that is called with the downloaded bytes and total file
+  size. `signal` (`AbortSignal`, optional): An `AbortSignal` to allow aborting
+  the request.
 
 #### Parameters
 
@@ -80,14 +84,11 @@ import fetchInChunks from 'fetch-in-chunks';
 
 async function downloadFileWithProgress() {
   try {
-    const blob = await fetchInChunks(
-      'https://example.com/largefile.zip',
-      5 * 1024 * 1024,
-      6,
-      (downloaded, total) => {
+    const blob = await fetchInChunks('https://example.com/largefile.zip', {
+      progressCallback: (downloaded, total) => {
         console.log(`Downloaded ${((downloaded / total) * 100).toFixed(2)}%`);
       },
-    );
+    });
     // Create a download link and trigger the download
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -114,15 +115,9 @@ async function downloadFileWithAbort() {
   const signal = controller.signal;
 
   try {
-    const blob = await fetchInChunks(
-      'https://example.com/largefile.zip',
-      5 * 1024 * 1024,
-      6,
-      (downloaded, total) => {
-        console.log(`Downloaded ${((downloaded / total) * 100).toFixed(2)}%`);
-      },
+    const blob = await fetchInChunks('https://example.com/largefile.zip', {
       signal,
-    );
+    });
     // Create a download link and trigger the download
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
