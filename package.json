@@ -1,6 +1,6 @@
 {
   "name": "fetch-in-chunks",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A utility for fetching large files in chunks with support for parallel downloads and progress tracking.",
   "main": "index.js",
   "type": "module",
