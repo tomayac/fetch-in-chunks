@@ -25,26 +25,19 @@ import fetchInChunks from 'fetch-in-chunks';
 async function fetchInChunks(url, options = {})
 ```
 
-### Options Object
-
-- `chunkSize` (`number`, optional): The size of each chunk in bytes. Defaults to
-  5 MB (5 _ 1024 _ 1024).
-- `maxParallelRequests` (`number`, optional): The maximum number of parallel
-  chunk requests. Defaults to 6. `progressCallback` (`function`, optional): A
-  callback function that is called with the downloaded bytes and total file
-  size. `signal` (`AbortSignal`, optional): An `AbortSignal` to allow aborting
-  the request.
-
 #### Parameters
 
 - `url` (`string`): The URL of the file to download.
-- `chunkSize` (`number`, optional): The size of each chunk in bytes. Defaults to
-  5 MB.
-- `maxParallelRequests` (`number`, optional): The maximum number of parallel
-  chunk requests. Defaults to 6.
-- `progressCallback` (`function`, optional): A callback function that is called
-  with the downloaded bytes and total file size. `signal` (`AbortSignal`,
-  optional): An `AbortSignal` to allow aborting the request.
+- `options` (`object`, optional): An object containing additional options.
+  - `options.chunkSize` (`number`, default: `5 * 1024 * 1024`): The size of each
+    chunk to download in bytes.
+  - `options.maxParallelRequests` (`number`, default: `1`): The number of chunks
+    to download in parallel.
+  - `options.progressCallback` (`function`, optional): A callback function that
+    will be called with the number of bytes downloaded and the total size of the
+    file.
+  - `options.signal` (`AbortSignal`, optional): An `AbortSignal` object that can
+    be used to abort the download.
 
 #### Returns
 
