@@ -54,14 +54,7 @@ import fetchInChunks from 'fetch-in-chunks';
 async function downloadFile() {
   try {
     const blob = await fetchInChunks('https://example.com/largefile.zip');
-    // Create a download link and trigger the download
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'largefile.zip';
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(url);
+    return blob;
   } catch (error) {
     console.error('Error fetching file:', error);
   }
@@ -82,14 +75,7 @@ async function downloadFileWithProgress() {
         console.log(`Downloaded ${((downloaded / total) * 100).toFixed(2)}%`);
       },
     });
-    // Create a download link and trigger the download
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'largefile.zip';
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(url);
+    return blob;
   } catch (error) {
     console.error('Error fetching file:', error);
   }
@@ -111,14 +97,7 @@ async function downloadFileWithAbort() {
     const blob = await fetchInChunks('https://example.com/largefile.zip', {
       signal,
     });
-    // Create a download link and trigger the download
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'largefile.zip';
-    document.body.appendChild(a);
-    a.click();
-    URL.revokeObjectURL(url);
+    return blob;
   } catch (error) {
     if (error.name === 'AbortError') {
       console.log('Download aborted');
