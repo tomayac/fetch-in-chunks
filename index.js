@@ -98,10 +98,12 @@ async function fetchInChunks(url, options = {}) {
       while (start < fileSize) {
         if (queue.length < maxParallelRequests) {
           let end = Math.min(start + chunkSize - 1, fileSize - 1);
-          let actualStart = start; // Preserve the actual start value
+          // Preserve the actual start value.
+          let actualStart = start;
           let promise = fetchChunk(url, start, end, signal)
             .then((chunk) => {
-              chunks.push({ start: actualStart, chunk }); // Use preserved start value
+              // Use preserved start value.
+              chunks.push({ start: actualStart, chunk });
               downloadedBytes += chunk.byteLength;
 
               if (progressCallback) {
