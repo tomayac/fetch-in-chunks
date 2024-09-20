@@ -105,10 +105,10 @@ async function downloadFileWithAbort() {
       console.error('Error fetching file:', error);
     }
   }
-}
 
-// To abort the download at any time
-controller.abort();
+  // To abort the download at any time
+  controller.abort();
+}
 ```
 
 ## License
