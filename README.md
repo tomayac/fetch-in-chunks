@@ -7,7 +7,7 @@ downloads, progress tracking, and request abortion.
 
 Install the package using npm:
 
-```sh
+```bash
 npm install fetch-in-chunks
 ```
 
@@ -22,27 +22,21 @@ import fetchInChunks from 'fetch-in-chunks';
 ### Function Signature
 
 ```js
-async function fetchInChunks(url, options = {})
+async function fetchInchunks(url, options = {})
 ```
 
 #### Parameters
 
-- `url` (`string`): The URL of the file to download.
-- `options` (`object`, optional): An object containing additional options.
-  - `options.chunkSize` (`number`, default: `5 * 1024 * 1024`): The size of each
-    chunk to download in bytes.
-  - `options.maxParallelRequests` (`number`, default: `1`): The number of chunks
-    to download in parallel.
-  - `options.progressCallback` (`function`, optional): A callback function that
-    will be called with the number of bytes downloaded and the total size of the
-    file.
-  - `options.signal` (`AbortSignal`, optional): An `AbortSignal` object that can
-    be used to abort the download.
+* `url` (`string`): The URL of the file to download.
+* `options` (`object`, optional): An object containing additional options.
+    * `options.chunkSize` (`number`, optional): The size of each chunk to download in bytes. Defaults to the total file size divided by `maxParallelRequests`.
+    * `options.maxParallelRequests` (`number`, default: '6'): The number of chunks to download in parallel.
+    * `options.progressCallback` (`function`, optional): A callback function that will be called with the number of bytes downloaded and the total size of the file.
+    * `options.signal` (`AbortSignal`, optional): An `AbortSignal` object that can be used to abort the download.
 
 #### Returns
 
-- `Promise<Blob>`: A promise that resolves to a `Blob` containing the downloaded
-  file.
+* `Promise<Blob>`: A promise that resolves to a `Blob` containing the downloaded file.
 
 ## Example
 
@@ -108,7 +102,7 @@ async function downloadFileWithAbort() {
 }
 
 // To abort the download at any time
-controller.abort();
+// controller.abort();
 ```
 
 ## License
