@@ -99,10 +99,12 @@ async function downloadFileWithAbort() {
       console.error('Error fetching file:', error);
     }
   }
-}
 
-// To abort the download at any time
-// controller.abort();
+  // You can abort the download at any time.
+  setTimeout(() => {
+    controller.abort();
+  }, 10_000);
+}
 ```
 
 ## License
